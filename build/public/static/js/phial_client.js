@@ -3160,6 +3160,7 @@ phylo.PhyloCanvasConfiguration = $hxClasses["phylo.PhyloCanvasConfiguration"] = 
 	this.scale = 1;
 	this.enableZoom = false;
 	this.highlightedGenes = new haxe.ds.StringMap();
+	this.editmode = false;
 	this.drawingMode = phylo.PhyloDrawingMode.CIRCULAR;
 	this.bezierLines = false;
 	this.shadowColour = "gray";
@@ -3171,6 +3172,7 @@ phylo.PhyloCanvasConfiguration.prototype = {
 	,shadowColour: null
 	,bezierLines: null
 	,drawingMode: null
+	,editmode: null
 	,highlightedGenes: null
 	,enableZoom: null
 	,scale: null
@@ -3883,6 +3885,7 @@ phylo.PhyloRadialTreeLayout.__name__ = ["phylo","PhyloRadialTreeLayout"];
 phylo.PhyloRadialTreeLayout.prototype = {
 	cx: null
 	,cy: null
+	,annotations: null
 	,renderCircle: function(treeNode,renderer,annotations,annotList,lineColour) {
 		if(lineColour == null) lineColour = "rgb(28,102,224)";
 		if(treeNode.colour != null) lineColour = treeNode.colour;
@@ -4052,6 +4055,184 @@ phylo.PhyloRadialTreeLayout.prototype = {
 			treeNode.screen.push(rootScreen);
 		}
 		return i;
+	}
+	,render: function(treeNode,renderer,annotations,annotList,lineColour) {
+		if(lineColour == null) lineColour = "rgb(28,102,224)";
+		var i = 0;
+		var x = treeNode.x;
+		var y = treeNode.y;
+		if(renderer.getConfig().editmode == true) lineColour = "rgb(234,147,28)";
+		while(i < treeNode.children.length) {
+			treeNode.children[i].space = 0;
+			if(treeNode.children[i].isLeaf()) {
+				if(treeNode.children[i].lineMode == phylo.LineMode.BEZIER) {
+					var deltaX1 = Math.abs(x - treeNode.children[i].x);
+					var deltaY1 = Math.abs(y - treeNode.children[i].y);
+					var firstY;
+					var secondY;
+					var firstX;
+					var secondX;
+					if(treeNode.children[i].xRandom == null) treeNode.children[i].xRandom = Math.random() * 0.3 + 0.3;
+					if(treeNode.children[i].yRandom == null) treeNode.children[i].yRandom = Math.random() * 0.4 + 0.4;
+					if(treeNode.children[i].y < y) {
+						firstY = y - deltaY1 * treeNode.children[i].yRandom;
+						secondY = treeNode.children[i].y + deltaY1 * treeNode.children[i].yRandom;
+					} else {
+						firstY = y + deltaY1 * treeNode.children[i].yRandom;
+						secondY = treeNode.children[i].y - deltaY1 * treeNode.children[i].yRandom;
+					}
+					if(treeNode.children[i].x > x) {
+						firstX = x + deltaX1 * 0.6;
+						secondX = treeNode.children[i].x - deltaX1 * treeNode.children[i].xRandom;
+					} else {
+						firstX = x - deltaX1 * 0.6;
+						secondX = treeNode.children[i].x + deltaX1 * treeNode.children[i].xRandom;
+					}
+					renderer.bezierCurve(x,y,treeNode.children[i].x,treeNode.children[i].y,firstX,firstY,secondX,secondY,lineColour,treeNode.children[i].lineWidth);
+				} else renderer.drawLine(x,y,treeNode.children[i].x,treeNode.children[i].y,lineColour,treeNode.children[i].lineWidth);
+				var t;
+				var aux;
+				var aux1;
+				var yequalsign = false;
+				if(treeNode.children[i].y > 0 && y > 0) yequalsign = true; else if(treeNode.children[i].y < 0 && y < 0) yequalsign = true;
+				var xequalsign = false;
+				if(treeNode.children[i].x > 0 && x > 0) xequalsign = true; else if(treeNode.children[i].x < 0 && x < 0) xequalsign = true;
+				var deltaY;
+				var deltaX;
+				if(xequalsign == true) deltaX = Math.abs(treeNode.children[i].x - x); else deltaX = Math.abs(treeNode.children[i].x) + Math.abs(x);
+				if(yequalsign == true) deltaY = Math.abs(treeNode.children[i].y - y); else deltaY = Math.abs(treeNode.children[i].y) + Math.abs(y);
+				var tang = deltaY / deltaX;
+				treeNode.children[i].rad = Math.atan(tang);
+				var rot;
+				rot = 0;
+				var orign = "start";
+				if(treeNode.children[i].y > y && treeNode.children[i].x > x) {
+					rot = treeNode.children[i].rad;
+					orign = "start";
+					treeNode.children[i].quad = 1;
+				}
+				if(treeNode.children[i].y < y && treeNode.children[i].x > x) {
+					rot = 2 * Math.PI - treeNode.children[i].rad;
+					orign = "start";
+					treeNode.children[i].quad = 2;
+				}
+				if(treeNode.children[i].y < y && treeNode.children[i].x < x) {
+					rot = treeNode.children[i].rad;
+					orign = "end";
+					treeNode.children[i].quad = 3;
+				}
+				if(treeNode.children[i].y > y && treeNode.children[i].x < x) {
+					rot = 2 * Math.PI - treeNode.children[i].rad;
+					orign = "end";
+					treeNode.children[i].quad = 4;
+				}
+				if(treeNode.children[i].y == y && treeNode.children[i].x > x) {
+					treeNode.children[i].quad = 5;
+					rot = 0;
+				}
+				if(treeNode.children[i].y == y && treeNode.children[i].x < x) {
+					treeNode.children[i].quad = 6;
+					rot = Math.PI;
+				}
+				if(treeNode.children[i].y > y && treeNode.children[i].x == x) {
+					rot = 3 * Math.PI - Math.PI / 2;
+					treeNode.children[i].quad = 7;
+				}
+				if(treeNode.children[i].y < y && treeNode.children[i].x == x) {
+					treeNode.children[i].quad = 8;
+					rot = 3 * Math.PI / 4;
+				}
+				var namecolor = "#585b5f";
+				var ttar = treeNode.children[i].name;
+				if((function($this) {
+					var $r;
+					var this1 = renderer.getConfig().highlightedGenes;
+					$r = this1.exists(ttar);
+					return $r;
+				}(this)) == true) namecolor = "#ff0000";
+				renderer.drawText(" " + treeNode.children[i].name,treeNode.children[i].x,treeNode.children[i].y,-2,3,rot,orign,namecolor);
+				this.updateTreeRectangle(treeNode.children[i].x,treeNode.children[i].y,treeNode.root);
+				t = renderer.mesureText(treeNode.children[i].name) + 10;
+				treeNode.children[i].rad = rot;
+				var j;
+				var _g1 = 1;
+				var _g = annotations.length;
+				while(_g1 < _g) {
+					var j1 = _g1++;
+					if(annotations[j1] == true) {
+						var added;
+						added = this.addAnnotation(treeNode.children[i],j1,t,renderer,annotList);
+						if(treeNode.children[i].annotations[j1] != null && treeNode.children[i].annotations[j1].alfaAnnot[0] != null && treeNode.children[i].annotations[j1].alfaAnnot.length > 0) {
+							var u = 0;
+							if(added == true) treeNode.children[i].space = treeNode.children[i].space - 1;
+							treeNode.children[i].space = treeNode.children[i].space + 1;
+							var _g3 = 0;
+							var _g2 = treeNode.children[i].annotations[j1].alfaAnnot.length;
+							while(_g3 < _g2) {
+								var u1 = _g3++;
+								if(annotList[j1].shape == "text" && treeNode.children[i].quad == 2) treeNode.children[i].space = treeNode.children[i].space + 2; else if(annotList[j1].shape == "text" && treeNode.children[i].quad == 1) treeNode.children[i].space = treeNode.children[i].space + 2; else treeNode.children[i].space = treeNode.children[i].space + 1;
+								added = this.addAlfaAnnotation(treeNode.children[i],treeNode.children[i].annotations[j1].alfaAnnot[u1],j1,t,renderer,annotList);
+							}
+							if(added == true) treeNode.children[i].space = treeNode.children[i].space + 1;
+						} else if(added == true) treeNode.children[i].space = treeNode.children[i].space + 1;
+					}
+				}
+			} else {
+				var childLineColour = lineColour;
+				if(treeNode.children[i].colour != null) childLineColour = treeNode.children[i].colour;
+				this.render(treeNode.children[i],renderer,annotations,annotList,childLineColour);
+				if(treeNode.children[i].lineMode == phylo.LineMode.BEZIER) {
+					var deltaX2 = Math.abs(x - treeNode.children[i].x);
+					var deltaY2 = Math.abs(y - treeNode.children[i].y);
+					var firstY1;
+					var secondY1;
+					var firstX1;
+					var secondX1;
+					if(treeNode.children[i].xRandom == null) treeNode.children[i].xRandom = Math.random() * 0.3 + 0.3;
+					if(treeNode.children[i].yRandom == null) treeNode.children[i].yRandom = Math.random() * 0.4 + 0.4;
+					if(treeNode.children[i].y < y) {
+						firstY1 = y - deltaY2 * treeNode.children[i].yRandom;
+						secondY1 = treeNode.children[i].y + deltaY2 * treeNode.children[i].yRandom;
+					} else {
+						firstY1 = y + deltaY2 * treeNode.children[i].yRandom;
+						secondY1 = treeNode.children[i].y - deltaY2 * treeNode.children[i].yRandom;
+					}
+					if(treeNode.children[i].x > x) {
+						firstX1 = x + deltaX2 * 0.6;
+						secondX1 = treeNode.children[i].x - deltaX2 * treeNode.children[i].xRandom;
+					} else {
+						firstX1 = x - deltaX2 * 0.6;
+						secondX1 = treeNode.children[i].x + deltaX2 * treeNode.children[i].xRandom;
+					}
+					renderer.bezierCurve(x,y,treeNode.children[i].x,treeNode.children[i].y,firstX1,firstY1,secondX1,secondY1,lineColour,treeNode.children[i].lineWidth);
+				} else renderer.drawLine(x,y,treeNode.children[i].x,treeNode.children[i].y,lineColour,treeNode.children[i].lineWidth);
+				var data;
+				data = new phylo.PhyloScreenData();
+				data.renderer = renderer;
+				data.isAnnot = false;
+				data.nodeId = treeNode.children[i].nodeId;
+				data.point = 5;
+				data.width = 10;
+				data.height = 10;
+				data.parentx = Math.round(x);
+				data.parenty = Math.round(y);
+				data.x = Math.round(treeNode.children[i].x);
+				data.y = Math.round(treeNode.children[i].y);
+				treeNode.root.screen[treeNode.root.screen.length] = data;
+			}
+			i++;
+		}
+		if(treeNode.parent == null) {
+			var rootScreen = new phylo.PhyloScreenData();
+			rootScreen.x = treeNode.x;
+			rootScreen.y = treeNode.y;
+			rootScreen.nodeId = treeNode.nodeId;
+			rootScreen.renderer = renderer;
+			rootScreen.point = 5;
+			rootScreen.width = 10;
+			rootScreen.height = 10;
+			treeNode.screen.push(rootScreen);
+		}
 	}
 	,addAnnotation: function(leave,annotation,$long,renderer,annotList) {
 		if(annotList[annotation].optionSelected.length != 0) {
@@ -4667,6 +4848,22 @@ phylo.PhyloRadialTreeLayout.prototype = {
 		}
 		leave.root.screen[leave.root.screen.length] = data;
 		return res;
+	}
+	,updateTreeRectangle: function(x,y,treeNode) {
+		var top;
+		top = treeNode.rectangleTop | 0;
+		var right;
+		right = treeNode.rectangleRight | 0;
+		var bottom;
+		bottom = treeNode.rectangleBottom | 0;
+		var left;
+		left = treeNode.rectangleLeft | 0;
+		x = x | 0;
+		y = y | 0;
+		if(x < left) treeNode.rectangleLeft = x;
+		if(x > right) treeNode.rectangleRight = x;
+		if(y < bottom) treeNode.rectangleBottom = y;
+		if(y > top) treeNode.rectangleTop = y;
 	}
 	,__class__: phylo.PhyloRadialTreeLayout
 };

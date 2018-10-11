@@ -14,6 +14,7 @@ package phylo;
 
 import phylo.PhyloTreeNode.LineMode;
 
+@:keep
 class PhyloRadialTreeLayout{
 
     public var cx: Float;
