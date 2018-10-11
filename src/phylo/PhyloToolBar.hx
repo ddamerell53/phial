@@ -102,7 +102,7 @@ class PhyloToolBar {
 
         position(button);
 
-        button.style.backgroundImage = 'url(/static/js/images/center-single.png)';
+        button.style.backgroundImage = 'url(js/images/center-single.png)';
         button.style.backgroundRepeat = 'no-repeat';
         button.style.backgroundPosition = 'center center';
         button.style.backgroundSize = '30px';
@@ -126,7 +126,7 @@ class PhyloToolBar {
 
         position(button);
 
-        button.style.backgroundImage = 'url(/static/js/images/mag_plus-single.png)';
+        button.style.backgroundImage = 'url(js/images/mag_plus-single.png)';
         button.style.backgroundRepeat = 'no-repeat';
         button.style.backgroundPosition = 'center center';
 
@@ -149,7 +149,7 @@ class PhyloToolBar {
 
         position(button);
 
-        button.style.backgroundImage = 'url(/static/js/images/mag_minus-single.png)';
+        button.style.backgroundImage = 'url(js/images/mag_minus-single.png)';
         button.style.backgroundRepeat = 'no-repeat';
         button.style.backgroundPosition = 'center center';
         button.style.height='25px';
@@ -171,7 +171,7 @@ class PhyloToolBar {
 
         position(button);
 
-        button.style.backgroundImage = 'url(/static/js/images/png-single.png)';
+        button.style.backgroundImage = 'url(js/images/png-single.png)';
         button.style.backgroundRepeat = 'no-repeat';
         button.style.backgroundPosition = 'center center';
         button.style.height='25px';
@@ -193,7 +193,7 @@ class PhyloToolBar {
 
         position(button);
 
-        button.style.backgroundImage = 'url(/static/js/images/svg-single.png)';
+        button.style.backgroundImage = 'url(js/images/svg-single.png)';
         button.style.backgroundRepeat = 'no-repeat';
         button.style.backgroundPosition = 'center center';
         button.style.height='25px';
@@ -215,7 +215,7 @@ class PhyloToolBar {
 
         position(button);
 
-        button.style.backgroundImage = 'url(/static/js/images/hightlight-single.png)';
+        button.style.backgroundImage = 'url(js/images/hightlight-single.png)';
         button.style.backgroundRepeat = 'no-repeat';
         button.style.backgroundPosition = 'center center';
         button.style.backgroundSize = '30px';
