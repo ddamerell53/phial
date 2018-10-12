@@ -416,7 +416,6 @@ class PhyloCanvasRenderer implements PhyloRendererI {
         this.ctx.lineWidth = lineWidth;
 
         this.ctx.stroke();
-        this.ctx.closePath();
 
         this.ctx.restore();
     }
