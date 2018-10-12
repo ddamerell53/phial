@@ -54,7 +54,7 @@ class PhyloRadialTreeLayout{
 
         var textSize = null;
 
-        var branch = (cx * 2 / treeNode.root.getHeight()) / 6;
+        var branch = (cx * 2 / treeNode.root.getHeight()) / 14;
         var k = 2 * Math.PI / treeNode.root.getLeafCount();
 
         var fontW = 12;
