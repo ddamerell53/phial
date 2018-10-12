@@ -1,0 +1,15 @@
+{
+  "name": "phial",
+  "url" : "https://github.com/ddamerell53/SATurn",
+  "license": "Public",
+  "tags": ["bioinformatics"],
+  "description": "Phylogenetics Interactive Annotation Library",
+  "version": "1.0.0",
+  "classPath": "src/",
+  "releasenote": "Initial release",
+  "contributors": ["ddamerell"],
+  "dependencies": {
+    "compiletime": "",
+    "continuation": ""
+  }
+}
