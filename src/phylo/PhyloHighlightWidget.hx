@@ -42,7 +42,10 @@ class PhyloHighlightWidget extends PhyloGlassPaneWidget {
 
     public function addHighlightList(){
         var formContainer = js.Browser.document.createElement('div');
+        formContainer.setAttribute('id', 'highlight-box');
         formContainer.style.margin = 'auto';
+        formContainer.style.overflowY = 'scroll';
+        formContainer.style.height = '75%';
 
         highlightInputs = new Array<Dynamic>();
 
@@ -62,14 +65,20 @@ class PhyloHighlightWidget extends PhyloGlassPaneWidget {
 
             i += 1;
 
+            var elementWrapper = js.Browser.document.createElement('div');
+            elementWrapper.setAttribute('class', 'element-wrapper');
+            elementWrapper.style.float = 'left';
+            elementWrapper.style.marginRight = '28px';
+            elementWrapper.style.marginBottom = '10px';
+
             var name = 'target_highlight_' + i;
 
             var inputLabel = js.Browser.document.createElement('label');
             inputLabel.setAttribute('for', name);
             inputLabel.innerText = target;
-            inputLabel.style.width = '60px';
-            inputLabel.style.marginBottom = '5px';
-            inputLabel.style.display = 'inline-block';
+            inputLabel.style.float = 'left';
+            inputLabel.style.width = '70px';
+            inputLabel.style.margin = '0';
 
             var inputElement = js.Browser.document.createElement('input');
             inputElement.setAttribute('type', 'checkbox');
@@ -77,17 +86,19 @@ class PhyloHighlightWidget extends PhyloGlassPaneWidget {
             inputElement.setAttribute('name', name);
             inputElement.style.width = '15px';
             inputElement.style.height = '15px';
-            inputElement.style.display = 'inline-block';
-            inputElement.style.marginRight = '15px';
+            inputElement.style.margin = '1px';
 
             highlightInputs.push(inputElement);
 
-            formContainer.appendChild(inputLabel);
-            formContainer.appendChild(inputElement);
+            formContainer.appendChild(elementWrapper);
+            elementWrapper.appendChild(inputLabel);
+            elementWrapper.appendChild(inputElement);
 
+
+            /**
             if(i % 7 == 0){
                 formContainer.appendChild(js.Browser.document.createElement('br'));
-            }
+            } */
         }
 
         content.appendChild(formContainer);
