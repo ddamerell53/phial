@@ -77,7 +77,7 @@ class PhyloHighlightWidget extends PhyloGlassPaneWidget {
             inputLabel.setAttribute('for', name);
             inputLabel.innerText = target;
             inputLabel.style.float = 'left';
-            inputLabel.style.width = '70px';
+            inputLabel.style.width = '55px';
             inputLabel.style.margin = '0';
 
             var inputElement = js.Browser.document.createElement('input');
