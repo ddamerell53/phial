@@ -16,6 +16,10 @@ class PhyloTooltipWidget extends PhyloInfoWidget {
 
     public function new(parent : Dynamic, message : String, title : String) {
         super(parent, message, title);
+
+        content.style.padding = '4px';
+        content.style.borderLeft = '10px solid #87888a';
+        content.style.borderRadius = '5px';
     }
 
 
