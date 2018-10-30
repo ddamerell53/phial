@@ -241,6 +241,7 @@ class PhyloToolBar {
         var inputLabel = js.Browser.document.createElement('label');
         inputLabel.setAttribute('for', 'tree_line_width');
         inputLabel.innerText = 'Pen width';
+        inputLabel.style.padding = '2px';
         inputLabel.style.display = 'inline-block';
 
         var inputElement :Dynamic = js.Browser.document.createElement('input');
@@ -248,6 +249,7 @@ class PhyloToolBar {
         inputElement.setAttribute('type', 'text');
         inputElement.style.width = '30px';
         inputElement.setAttribute('value', '1');
+        inputElement.style.padding = '2px';
         inputElement.style.marginLeft = '5px';
 
         position(inputElement);
@@ -266,11 +268,11 @@ class PhyloToolBar {
         position(button);
 
         button.innerText = 'Toggle Type';
-        button.style.border='none';
+        button.style.border = '1px solid #c1c1c1';
         button.style.cursor='pointer';
-        button.style.padding= '3px';
-        button.style.marginLeft = '20px';
-        button.style.marginRight = '20px';
+        button.style.padding= '3px 6px';
+        button.style.marginLeft = '25px';
+        button.style.marginRight = '25px';
 
         position(button);
 
@@ -285,10 +287,10 @@ class PhyloToolBar {
         var button = js.Browser.document.createElement('button');
 
         button.innerText = 'Toggle Line Type';
-        button.style.border='none';
+        button.style.border = '1px solid #c1c1c1';
         button.style.cursor='pointer';
-        button.style.padding= '3px';
-        button.style.marginLeft = '20px';
+        button.style.padding= '3px 6px';
+        button.style.marginRight = '25px';
 
         position(button);
 
@@ -329,9 +331,10 @@ class PhyloToolBar {
         });
 
         removeShadowButton.innerText = 'Toggle Shadow';
-        removeShadowButton.style.border='none';
+        removeShadowButton.style.border= '1px solid #c1c1c1';
         removeShadowButton.style.cursor='pointer';
-        removeShadowButton.style.marginLeft = '20px';
+        removeShadowButton.style.padding= '3px 6px';
+        removeShadowButton.style.marginLeft = '25px';
 
         position(shadowInputColour);
 
@@ -350,10 +353,10 @@ class PhyloToolBar {
         var button = js.Browser.document.createElement('button');
 
         button.innerText = 'Fit';
-        button.style.border='none';
+        button.style.border='1px solid #c1c1c1';
         button.style.cursor='pointer';
-        button.style.padding= '3px';
-        button.style.marginLeft = '20px';
+        button.style.padding= '3px 6px';
+        button.style.marginLeft = '25px';
 
         position(button);
 
