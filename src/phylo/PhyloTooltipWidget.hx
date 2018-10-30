@@ -37,9 +37,13 @@ class PhyloTooltipWidget extends PhyloInfoWidget {
     }
 
     public function addConfirmationCheckbox(){
+        var label :Dynamic = js.Browser.document.createElement('label');
+        label.innerHTML= 'Do not show this message again';
+
         var input :Dynamic = js.Browser.document.createElement('input');
         input.setAttribute('type', 'checkbox');
 
+        content.appendChild(label);
         content.appendChild(input);
 
         input.addEventListener('change', function(event) {
@@ -52,6 +56,5 @@ class PhyloTooltipWidget extends PhyloInfoWidget {
                 //not checked
             }
         });
-
     }
 }
