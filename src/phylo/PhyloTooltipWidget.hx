@@ -18,15 +18,6 @@ class PhyloTooltipWidget extends PhyloInfoWidget {
         super(parent, message, title);
 
         container.className = 'icons-tooltip';
-
-        //header.style.backgroundColor = 'rgb(255, 255, 265)';
-        //header.style.color = 'rgb(88, 91, 108)';
-        //header.style.padding = '5px';
-
-        //container.style.padding = '4px';
-        //container.style.borderLeft = '10px solid #87888a';
-        //container.style.borderRadius = '5px';
-
     }
 
 
@@ -37,14 +28,20 @@ class PhyloTooltipWidget extends PhyloInfoWidget {
     }
 
     public function addConfirmationCheckbox(){
+
+        var checkbox = js.Browser.document.createElement('div');
+        checkbox.setAttribute('class', 'icons-tooltip-checkbox');
+
         var label :Dynamic = js.Browser.document.createElement('label');
         label.innerHTML= 'Do not show this message again';
 
         var input :Dynamic = js.Browser.document.createElement('input');
         input.setAttribute('type', 'checkbox');
 
-        content.appendChild(label);
-        content.appendChild(input);
+
+        content.appendChild(checkbox);
+        checkbox.appendChild(label);
+        checkbox.appendChild(input);
 
         input.addEventListener('change', function(event) {
             if(input.checked) {
