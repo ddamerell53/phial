@@ -17,13 +17,13 @@ class PhyloTooltipWidget extends PhyloInfoWidget {
     public function new(parent : Dynamic, message : String, title : String) {
         super(parent, message, title);
 
-        content.header.style.backgroundColor = 'rgb(255, 255, 265)';
-        content.header.style.color = 'rgb(88, 91, 108)';
-        content.header.style.padding = '5px';
+        header.style.backgroundColor = 'rgb(255, 255, 265)';
+        header.style.color = 'rgb(88, 91, 108)';
+        header.style.padding = '5px';
 
-        content.container.style.padding = '4px';
-        content.container.style.borderLeft = '10px solid #87888a';
-        content.container.style.borderRadius = '5px';
+        container.style.padding = '4px';
+        container.style.borderLeft = '10px solid #87888a';
+        container.style.borderRadius = '5px';
 
     }
 
