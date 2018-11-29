@@ -43,6 +43,7 @@ class PhyloAnnotationManager {
 
     public var annotationNameToConfig : Map<String, PhyloAnnotationConfiguration>;
     public var skipAnnotation : Array<Bool>;
+    public var skipCurrentLegend : Array<Bool>;
 
     public function new() {
         annotations = new Array<PhyloAnnotation>();
@@ -52,6 +53,7 @@ class PhyloAnnotationManager {
         searchedGenes=new Array();
         annotationListeners = new Array<Void->Void>();
         skipAnnotation = new Array<Bool>();
+        skipCurrentLegend = new Array<Bool>();
     }
 
     public function showAssociatedData(active : Bool,  data: PhyloScreenData, mx: Int, my:Int){
