@@ -258,6 +258,63 @@ class PhyloCanvasRenderer implements PhyloRendererI {
                     }
                 });
 
+                // Touch events
+
+                var touchDownX = 0.;
+                var touchDownY = 0.;
+                var touchDown = false;
+
+                canvas.addEventListener('touchstart', function(e : Dynamic) {
+                    annotationManager.hideAnnotationWindows();
+                    annotationManager.closeAnnotWindows();
+
+                    touchDownX=e.touches[0].clientX - translateX;
+                    touchDownY=e.touches[0].clientY - translateY;
+
+                    touchDown = true;
+
+                    if(contextDiv != null){
+                        container.removeChild(contextDiv);
+
+                        contextDiv = null;
+                    }
+
+                    notifyNodeClickListeners(null,null,null);
+                });
+
+                canvas.addEventListener('touchmove', function(e : Dynamic) {
+                    if(touchDown && touchDownX != 0 && touchDownY != 0){
+                        //annotationManager.hideAnnotationWindows();
+                        //annotationManager.closeAnnotWindows();
+
+                        newPosition(e.touches[0].clientX - touchDownX,e.touches[0].clientY - touchDownY);
+
+                        notifyNodeClickListeners(null,null,null);
+                    }
+                });
+
+                canvas.addEventListener('touchend', function(e : Dynamic) {
+                    touchDown = false;
+                    touchDownX = 0;
+                    touchDownY = 0;
+
+                    var d = checkPosition(e);
+                    if (d!=null) {
+                        if(d.isAnnot==true){
+                            annotationManager.showScreenData(false,d,e.touches[0].clientX,e.touches[0].clientY);
+                        }else{
+                            selectedNode = rootNode.nodeIdToNode.get(d.nodeId);
+
+                            notifyNodeClickListeners(selectedNode, d, e);
+                        }
+                    }else{
+                        notifyNodeClickListeners(null, null, e);
+                    }
+                });
+
+
+                //Mouse events
+
                 var mouseDownX = 0.;
                 var mouseDownY = 0.;
                 var mouseDown = false;
