@@ -966,6 +966,9 @@ $('.vertical .progress-fill span').each(function(){
                 if(configUser.shape != null){
                     config.shape = configUser.shape;
                 }
+                if(configUser.infoFunction != null){
+                    config.infoFunction = configUser.infoFunction;
+                }
             }
 
             finalConfigs.push(config);

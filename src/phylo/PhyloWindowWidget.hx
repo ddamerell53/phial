@@ -53,18 +53,16 @@ class PhyloWindowWidget {
 
     public function addContainer(){
         container = js.Browser.document.createElement('div');
+        container.classList.add('popup-window');
         container.style.position = 'fixed';
         container.style.zIndex = 1;
-        container.style.paddingTop = '20px';
         container.style.left = 0;
         container.style.top = 0;
         container.style.minWidth = '200px';
         container.style.minHeight = '100px';
-        container.style.backgroundColor = 'rgb(247, 248, 251)';
-
-        if(!isModal()){
-            installMoveListeners();
-        }
+        container.style.overflow = 'hidden';
+        container.style.border = '1px solid rgb(195, 195, 195)';
+        container.style.borderRadius = '6px';
 
         parent.appendChild(container);
     }
@@ -75,14 +73,23 @@ class PhyloWindowWidget {
 
     public function addWindowHeader(){
         header = js.Browser.document.createElement('div');
+        header.classList.add('popup-header');
         header.style.position = 'absolute';
         header.style.top = '0px';
         header.style.backgroundColor = 'rgb(125, 117, 117)';
-        header.style.height = '20px';
+        header.style.height = '24px';
         header.style.width = '100%';
+        header.style.padding = '4px 15px 4px 15px';
+        header.style.lineHeight = '16px';
+        header.style.boxSizing = "border-box";
+        header.style.cursor = 'pointer';
 
         addTitle();
         addCloseButton();
+
+        if(!isModal()){
+            installMoveListeners();
+        }
 
         container.appendChild(header);
     }
@@ -92,7 +99,7 @@ class PhyloWindowWidget {
         titleSpan.innerText = this.title;
 
         titleSpan.style.color = 'white';
-        titleSpan.style.fontSize = '16px';
+        titleSpan.style.fontSize = '18px';
         titleSpan.style.fontWeight = 'bold';
 
         header.appendChild(titleSpan);
@@ -102,7 +109,7 @@ class PhyloWindowWidget {
         var closeButton = js.Browser.document.createElement('span');
         closeButton.style.color = 'white';
         closeButton.style.float = 'right';
-        closeButton.style.fontSize = '16px';
+        closeButton.style.fontSize = '24px';
         closeButton.style.fontWeight = 'bold';
         closeButton.innerHTML = '&times;';
         closeButton.style.cursor = 'pointer';
@@ -116,8 +123,12 @@ class PhyloWindowWidget {
 
     public function addContent(){
         content = js.Browser.document.createElement('div');
-        content.style.backgroundColor = '#fefefe';
+        content.classList.add('popup-content');
+        content.style.backgroundColor = 'rgb(247, 248, 251)';
         content.style.width = '100%';
+        content.style.height = '100%';
+        content.style.padding = '37px 15px 15px 15px';
+        content.style.boxSizing = "border-box";
     }
 
     public function close(){
@@ -146,7 +157,7 @@ class PhyloWindowWidget {
             }
         };
 
-        container.addEventListener('mousedown', function(e) {
+        header.addEventListener('mousedown', function(e) {
             isDown = true;
 
             offsetX = container.offsetLeft - e.clientX;
@@ -156,7 +167,7 @@ class PhyloWindowWidget {
 
         });
 
-        container.addEventListener('mouseup', function() {
+        header.addEventListener('mouseup', function() {
             isDown = false;
             js.Browser.document.body.removeEventListener('mousemove', moveListener);
 
