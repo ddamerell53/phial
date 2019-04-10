@@ -245,13 +245,12 @@ class PhyloCanvasRenderer implements PhyloRendererI {
             this.ctx.translate(cx,cy); //offset to get sharp lines.
 
             if(config.enableZoom){
-                canvas.addEventListener('mousewheel', function(e : Dynamic) {
+                canvas.addEventListener('wheel', function(e : Dynamic) {
                     //parent.removeChild(canvas);
+                    e.preventDefault();
 
                    // createCanvas();
-
-                    if(e.wheelDelta<0){
-
+                    if(e.deltaY<0){
                         zoomIn();
                     }else{
                         zoomOut();
@@ -655,8 +654,6 @@ class PhyloCanvasRenderer implements PhyloRendererI {
         if(scale == null){
             if(config.scale<=4.0){
                 config.scale = config.scale+0.2;
-
-
             }
 
             scale = config.scale;
@@ -671,7 +668,7 @@ class PhyloCanvasRenderer implements PhyloRendererI {
         if(scale == null){
             config.scale = config.scale-0.2;
 
-
+            config.scale = Math.max(0.2, config.scale);
 
             scale = config.scale;
         }

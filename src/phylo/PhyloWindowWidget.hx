@@ -122,6 +122,8 @@ class PhyloWindowWidget {
     }
 
     public function addContent(){
+
+
         content = js.Browser.document.createElement('div');
         content.classList.add('popup-content');
         content.style.backgroundColor = 'rgb(247, 248, 251)';
