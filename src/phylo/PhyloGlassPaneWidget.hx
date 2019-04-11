@@ -20,6 +20,7 @@ class PhyloGlassPaneWidget extends PhyloWindowWidget{
         container.style.width = '100%';
         container.style.height = '100%';
         container.style.backgroundColor = 'rgba(0,0,0,0.4)';
+        container.className = 'glasspane';
 
         header.style.width = '50%';
         header.style.margin = 'auto';
