@@ -245,7 +245,8 @@ class PhyloCanvasRenderer implements PhyloRendererI {
             this.ctx.translate(cx,cy); //offset to get sharp lines.
 
             if(config.enableZoom){
-                canvas.addEventListener('wheel', function(e : Dynamic) {
+                canvas.addEventListener('mousewheel', function(e : Dynamic) { // IE9+, Chrome, Safari, Opera
+
                     //parent.removeChild(canvas);
                     e.preventDefault();
 
@@ -256,6 +257,16 @@ class PhyloCanvasRenderer implements PhyloRendererI {
                         zoomOut();
                     }
                 });
+
+                canvas.addEventListener('DOMMouseScroll', function(e : Dynamic) { //Firefox
+                    if (e.originalEvent.detail < 0) {
+                        zoomIn();
+                    }
+                    else {
+                        zoomOut();
+                    }
+                });
+
 
                 // Touch events
 
