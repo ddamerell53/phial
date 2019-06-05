@@ -128,7 +128,7 @@ class PhyloWindowWidget {
         content.classList.add('popup-content');
         content.style.backgroundColor = 'rgb(247, 248, 251)';
         content.style.width = '100%';
-        content.style.float = 'left';
+        content.style.display = 'table';
         content.style.padding = '37px 15px 15px 15px';
         content.style.boxSizing = "border-box";
     }

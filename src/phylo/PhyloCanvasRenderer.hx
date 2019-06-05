@@ -259,7 +259,9 @@ class PhyloCanvasRenderer implements PhyloRendererI {
                 });
 
                 canvas.addEventListener('DOMMouseScroll', function(e : Dynamic) { //Firefox
-                    if (e.originalEvent.detail < 0) {
+                    e.preventDefault();
+
+                    if (e.detail < 0) {
                         zoomIn();
                     }
                     else {
